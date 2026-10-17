@@ -1,0 +1,116 @@
+﻿@page "/"
+@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit.Inputs
+@using Syncfusion.Blazor.Cards
+@using Microsoft.AspNetCore.Components.Web
+
+<PageTitle>Home</PageTitle>
+
+<div class="container py-4">
+    <div class="card mb-4">
+        <div class="card-body">
+            <h2 class="card-title">Blazor Toolkit — Web App Demo</h2>
+            <p class="card-text">Simple starter template showcasing Syncfusion controls for Blazor Server applications.</p>
+
+            <div class="d-flex align-items-center gap-2">
+                <SfButton CssClass="e-primary" OnClick=@(() => Message = "Welcome to Blazor Toolkit!")>Get started</SfButton>
+                <SfButton CssClass="e-outline" OnClick=@(() => Message = "See documentation for more details.")>Learn more</SfButton>
+            </div>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Message))
+    {
+        <div class="alert alert-info mb-4">@Message</div>
+    }
+
+    <div class="row mb-5">
+        <!-- TextBox Sample -->
+        <div class="col-md-6 mb-4">
+            <SfCard>
+                <CardContent>
+                    <h5>TextBox Sample</h5>
+                    <label class="form-label">Name</label>
+                    <SfTextBox @bind-Value="Name" Placeholder="Enter your name"></SfTextBox>
+                    @if (!string.IsNullOrEmpty(Name))
+                    {
+                        <p class="mt-2">Hello, <strong>@Name</strong>!</p>
+                    }
+                </CardContent>
+            </SfCard>
+        </div>
+
+        <!-- CheckBox Sample -->
+        <div class="col-md-6 mb-4">
+            <SfCard>
+                <CardContent>
+                    <h5>CheckBox Sample</h5>
+                    <SfCheckBox @bind-Checked="IsAgree" Label="I agree to the terms"></SfCheckBox>
+                    <p class="mt-2">Status: <strong>@(IsAgree ? "Agreed" : "Not agreed")</strong></p>
+                </CardContent>
+            </SfCard>
+        </div>
+
+        <!-- RadioButton Sample -->
+        <div class="col-md-6 mb-4">
+            <SfCard>
+                <CardContent>
+                    <h5>RadioButton Sample</h5>
+                    <SfRadioButton Name="choice" Value="option1" @bind-Checked="SelectedOption" Label="Option 1"></SfRadioButton>
+                    <SfRadioButton Name="choice" Value="option2" @bind-Checked="SelectedOption" Label="Option 2"></SfRadioButton>
+                    <SfRadioButton Name="choice" Value="option3" @bind-Checked="SelectedOption" Label="Option 3"></SfRadioButton>
+                    <p class="mt-2">Selected: <strong>@SelectedOption</strong></p>
+                </CardContent>
+            </SfCard>
+        </div>
+
+        <!-- Switch Sample -->
+        <div class="col-md-6 mb-4">
+            <SfCard>
+                <CardContent>
+                    <h5>Switch Sample</h5>
+                    <SfSwitch @bind-Checked="IsEnabled"></SfSwitch>
+                    <p class="mt-2">Status: <strong>@(IsEnabled ? "Enabled" : "Disabled")</strong></p>
+                </CardContent>
+            </SfCard>
+        </div>
+
+        <!-- NumericTextBox Sample -->
+        <div class="col-md-6 mb-4">
+            <SfCard>
+                <CardContent>
+                    <h5>NumericTextBox Sample</h5>
+                    <label class="form-label">Count</label>
+                    <SfNumericTextBox TValue="int" @bind-Value="Count" Min="0" Max="100"></SfNumericTextBox>
+                    <p class="mt-2">Value: <strong>@Count</strong></p>
+                </CardContent>
+            </SfCard>
+        </div>
+
+        <!-- Button Variants Sample -->
+        <div class="col-md-6 mb-4">
+            <SfCard>
+                <CardContent>
+                    <h5>Button Variants</h5>
+                    <div class="d-grid gap-2">
+                        <SfButton CssClass="e-primary" OnClick=@(() => Message = "Primary button clicked")>Primary</SfButton>
+                        <SfButton CssClass="e-success" OnClick=@(() => Message = "Success button clicked")>Success</SfButton>
+                        <SfButton CssClass="e-danger" OnClick=@(() => Message = "Danger button clicked")>Danger</SfButton>
+                    </div>
+                </CardContent>
+            </SfCard>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string Name { get; set; } = string.Empty;
+    private bool IsAgree { get; set; }
+    private string SelectedOption { get; set; } = "option1";
+    private bool IsEnabled { get; set; } = true;
+    private int Count { get; set; } = 1;
+    private int? SliderValue { get; set; } = 50;
+    private int? Rating { get; set; } = 3;
+    private string Message { get; set; } = string.Empty;
+}

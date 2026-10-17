@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   pull_request:
-    branches: [main]
+    branches: [master]
   workflow_dispatch:
 
 permissions:
@@ -60,7 +60,8 @@ jobs:
 
       - name: Install the packed templates
         shell: bash
-        run: dotnet new install artifacts/packages/Syncfusion.Blazor.Toolkit.Templates::1.0.0 --force
+        run: |
+          dotnet new install artifacts/packages/*.nupkg --force
 
       - name: Verify templates are registered
         shell: bash
@@ -80,10 +81,28 @@ jobs:
           generate() {
             local label="$1"; shift
             local out="$WORK/$label"
+            # Valid C# identifier – required by Microsoft template conventions
+            local name="TestApp"
+
             echo "--- generating $label ---"
-            dotnet new "$@" -o "$out" >/dev/null
+            dotnet new "$@" -n "$name" -o "$out" --force
+
             echo "--- building $label ---"
-            dotnet build "$out" --nologo -c Release --no-restore -v:minimal
+            local target
+            target=$(find "$out" -name "*.sln" -o -name "*.slnx" | head -n 1)
+            if [[ -z "$target" ]]; then
+              target=$(find "$out" -name "*.csproj" -type f | head -n 1)
+            fi
+
+            if [[ -z "$target" ]]; then
+              echo "ERROR: No .sln/.slnx/.csproj found under $out"
+              find "$out" -type f
+              exit 1
+            fi
+
+            echo "Building: $target"
+            dotnet build "$target" --nologo -c Release -v:minimal
+            rm -rf "$out"
           }
 
           # sfblazorweb matrix

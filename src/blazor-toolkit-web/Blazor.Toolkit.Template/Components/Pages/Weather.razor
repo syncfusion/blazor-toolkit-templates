@@ -1,0 +1,75 @@
+﻿@page "/weather"
+@attribute [StreamRendering]
+@using Syncfusion.Blazor.Toolkit
+
+<PageTitle>Weather</PageTitle>
+
+<h1>Weather</h1>
+
+<p>This component demonstrates displaying data using Syncfusion Toolkit controls and buttons.</p>
+
+<SfButton CssClass="e-primary mb-3" OnClick="LoadForecasts">Refresh</SfButton>
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        @foreach (var f in forecasts)
+        {
+            <div class="col-md-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">@f.Date.ToString("ddd, dd MMM")</h5>
+                        <p class="card-text mb-1"><strong>@f.TemperatureC°C</strong> — @f.TemperatureF°F</p>
+                        <p class="card-text">@f.Summary</p>
+                        <SfButton CssClass="e-outline" OnClick="() => OnDetails(f)">Details</SfButton>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private WeatherForecast[]? forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadForecasts();
+    }
+
+    private async Task LoadForecasts()
+    {
+        forecasts = null;
+        StateHasChanged();
+        await Task.Delay(400);
+
+        var startDate = DateOnly.FromDateTime(DateTime.Now);
+        var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
+        forecasts = Enumerable.Range(1, 10).Select(index => new WeatherForecast
+        {
+            Date = startDate.AddDays(index),
+            TemperatureC = Random.Shared.Next(-20, 55),
+            Summary = summaries[Random.Shared.Next(summaries.Length)]
+        }).ToArray();
+
+        StateHasChanged();
+    }
+
+    void OnDetails(WeatherForecast f)
+    {
+        // Simple details action — update message
+        var Message = $"Details: {f.Date:d} — {f.Summary} ({f.TemperatureC}°C)";
+    }
+
+    private class WeatherForecast
+    {
+        public DateOnly Date { get; set; }
+        public int TemperatureC { get; set; }
+        public string? Summary { get; set; }
+        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    }
+}

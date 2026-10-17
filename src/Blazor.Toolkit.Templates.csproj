@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<PackageId>Blazor.Toolkit.Templates</PackageId>
+		<Version>1.0.0</Version>
+		<PackageVersion>1.0.0</PackageVersion>
+		<Title>Blazor Toolkit Templates</Title>
+		<Company>Syncfusion (scaffold)</Company>
+		<Authors>Syncfusion Team</Authors>
+		<Description>Scaffolded templates for the Blazor Toolkit repository (scaffolded from user request).</Description>
+		<PackageTags>Blazor, Templates, Syncfusion, Toolkit</PackageTags>
+		<RepositoryUrl>https://gitea.syncfusion.com/essential-studio/blazor-toolkit</RepositoryUrl>
+		<!-- REQUIRED for templates -->
+		<IsPackable>true</IsPackable>
+		<PackageType>Template</PackageType>
+		<TargetFramework>net10.0</TargetFramework>
+		<IncludeContentInPack>true</IncludeContentInPack>
+		<ContentTargetFolders>content</ContentTargetFolders>
+		<!-- <PackageReadmeFile>README.md</PackageReadmeFile> -->
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+		<NoBuild>true</NoBuild>
+		<NoDefaultExcludes>true</NoDefaultExcludes>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.TemplateEngine.Tasks" Version="*" PrivateAssets="all" IsImplicitlyDefined="true" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- Pack template files ONLY (not projects) -->
+		<Content Include="**/*"
+					 Exclude="**/bin/**;**/obj/**;**/.vs/**"
+					 Pack="true"
+					 PackagePath="/" />
+		<Content Include="blazor-toolkit-web/**"
+				 Exclude="**/bin/**;**/obj/**;**/.vs/**;**/*.user"
+				 Pack="true"
+				 PackagePath="/" />
+		<Content Include="blazor-toolkit-wasm/**"
+				 Exclude="**/bin/**;**/obj/**;**/.vs/**;**/*.user"
+				 Pack="true"
+				 PackagePath="/" />
+		<Compile Remove="**\\*" />
+	</ItemGroup>
+</Project>

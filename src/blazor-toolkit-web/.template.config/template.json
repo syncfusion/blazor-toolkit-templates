@@ -1,0 +1,387 @@
+{
+  "$schema": "https://json.schemastore.org/template",
+  "author": "Syncfusion",
+  "classifications": [
+    "Web",
+    "Blazor",
+    "Syncfusion",
+    "Toolkit"
+  ],
+  "name": "Syncfusion Blazor Toolkit Web App",
+  "defaultName": "SyncfusionToolkitBlazorApp",
+  "description": "A project template for creating a Blazor web app that supports server-side rendering and WebAssembly interactivity using the Syncfusion Blazor Toolkit components.",
+  "groupIdentity": "Syncfusion.Blazor.Toolkit.Web",
+  "precedence": "9875",
+  "guids": [
+    "7E5C9A3F-2B4D-41E6-8F9C-5A3E7B1D4F8C",
+    "8F6D0B4E-3C5E-52F7-9A0D-6B4F8C2E5A9D",
+    "9A7E1C5B-4D6F-63A8-0B1E-7C5A9D3F6B0E",
+    "0B8F2D6C-5E7A-74B9-1C2F-8D6B0E4A7C1F"
+  ],
+  "identity": "Syncfusion.Blazor.Toolkit.Web.App.CSharp.10.0",
+  "thirdPartyNotices": "",
+  "preferNameDirectory": true,
+  "primaryOutputs": [
+    {
+      "condition": "(UseWebAssembly && (HostIdentifier == \"dotnetcli\" || HostIdentifier == \"dotnetcli-preview\"))",
+      "path": "Blazor.Toolkit.Template.slnx"
+    },
+    {
+      "condition": "(UseWebAssembly && HostIdentifier != \"dotnetcli\" && HostIdentifier != \"dotnetcli-preview\")",
+      "path": "Blazor.Toolkit.Template/Blazor.Toolkit.Template.csproj"
+    },
+    {
+      "condition": "(!UseWebAssembly)",
+      "path": "Blazor.Toolkit.Template/Blazor.Toolkit.Template.csproj"
+    },
+    {
+      "condition": "(UseWebAssembly && HostIdentifier != \"dotnetcli\" && HostIdentifier != \"dotnetcli-preview\")",
+      "path": "Blazor.Toolkit.Template.Client/Blazor.Toolkit.Template.Client.csproj"
+    }
+  ],
+  "shortName": "sfblazorweb",
+  "sourceName": "Blazor.Toolkit.Template",
+  "sources": [
+    {
+      "source": "./",
+      "target": "./",
+      "exclude": [
+        ".template.config/**",
+        "**/[Bb]in/**",
+        "**/[Oo]bj/**",
+        "**/.vs/**",
+        "**/*.user"
+      ],
+      "modifiers": [
+        {
+          "condition": "(!UseWebAssembly)",
+          "exclude": [
+            "Blazor.Toolkit.Template.Client/**",
+            "Blazor.Toolkit.Template.slnx"
+          ]
+        },
+        {
+          "condition": "(UseWebAssembly && InteractivityAtRoot)",
+          "rename": {
+            "Blazor.Toolkit.Template/Components/Layout/": "./Blazor.Toolkit.Template.Client/Layout/",
+            "Blazor.Toolkit.Template/Components/Pages/Home.razor": "./Blazor.Toolkit.Template.Client/Pages/Home.razor",
+            "Blazor.Toolkit.Template/Components/Pages/NotFound.razor": "./Blazor.Toolkit.Template.Client/Pages/NotFound.razor",
+            "Blazor.Toolkit.Template/Components/Routes.razor": "./Blazor.Toolkit.Template.Client/Routes.razor"
+          }
+        },
+        {
+          "condition": "(!UseProgramMain)",
+          "exclude": [
+            "Blazor.Toolkit.Template/Program.Main.cs",
+            "Blazor.Toolkit.Template.Client/Program.Main.cs"
+          ]
+        },
+        {
+          "condition": "(UseProgramMain)",
+          "exclude": [
+            "Blazor.Toolkit.Template/Program.cs",
+            "Blazor.Toolkit.Template.Client/Program.cs"
+          ],
+          "rename": {
+            "Blazor.Toolkit.Template/Program.Main.cs": "Blazor.Toolkit.Template/Program.cs",
+            "Blazor.Toolkit.Template.Client/Program.Main.cs": "Blazor.Toolkit.Template.Client/Program.cs"
+          }
+        },
+        {
+          "condition": "(!SampleContent)",
+          "exclude": [
+            "Blazor.Toolkit.Template/Components/Pages/Counter.razor",
+            "Blazor.Toolkit.Template/Components/Pages/Weather.razor",
+            "Blazor.Toolkit.Template/Components/Layout/NavMenu.razor",
+            "Blazor.Toolkit.Template/Components/Layout/NavMenu.razor.css"
+          ]
+        },
+        {
+          "condition": "(!(UseServer && !UseWebAssembly))",
+          "exclude": [
+            "Blazor.Toolkit.Template/Components/Pages/Counter.razor",
+            "Blazor.Toolkit.Template/Components/Pages/Weather.razor"
+          ]
+        },
+        {
+          "condition": "(!UseServer)",
+          "exclude": [
+            "Blazor.Toolkit.Template/Components/Layout/ReconnectModal.razor",
+            "Blazor.Toolkit.Template/Components/Layout/ReconnectModal.razor.css",
+            "Blazor.Toolkit.Template/Components/Layout/ReconnectModal.razor.js"
+          ]
+        },
+        {
+          "condition": "(Empty)",
+          "exclude": [
+            "Blazor.Toolkit.Template/Components/Pages/Counter.razor",
+            "Blazor.Toolkit.Template/Components/Pages/Weather.razor"
+          ]
+        },
+        {
+          "condition": "(ExcludeLaunchSettings)",
+          "exclude": [
+            "Blazor.Toolkit.Template/Properties/launchSettings.json"
+          ]
+        }
+      ]
+    }
+  ],
+  "symbols": {
+    "SafeProjectName": {
+      "type": "derived",
+      "valueSource": "name",
+      "valueTransform": "safe_namespace",
+      "replaces": "Blazor.Toolkit.Template"
+    },
+    "hostName": {
+      "type": "derived",
+      "valueSource": "name",
+      "valueTransform": "lowerCaseInvariantWithHyphens",
+      "replaces": "LocalhostTldHostNamePrefix"
+    },
+    "Framework": {
+      "type": "parameter",
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "net10.0",
+          "description": ".NET 10.0"
+        }
+      ],
+      "defaultValue": "net10.0",
+      "replaces": "net10.0"
+    },
+    "HostIdentifier": {
+      "type": "bind",
+      "binding": "HostIdentifier"
+    },
+    "skipRestore": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "false",
+      "description": "If specified, skips the automatic restore of the project on create."
+    },
+    "ExcludeLaunchSettings": {
+      "type": "parameter",
+      "datatype": "bool",
+      "displayName": "_Exclude launchSettings.json",
+      "defaultValue": "false",
+      "description": "Exclude launchSettings.json from the generated project output"
+    },
+    "kestrelHttpPort": {
+      "type": "parameter",
+      "datatype": "integer",
+      "description": "Port number to use for the HTTP endpoint in launchSettings.json."
+    },
+    "blazorKestrelHttpPortGenerated": {
+      "type": "generated",
+      "generator": "port",
+      "parameters": {
+        "low": 5000,
+        "high": 5300
+      }
+    },
+    "blazorKestrelHttpPortReplacer": {
+      "type": "generated",
+      "generator": "coalesce",
+      "parameters": {
+        "sourceVariableName": "kestrelHttpPort",
+        "fallbackVariableName": "blazorKestrelHttpPortGenerated"
+      },
+      "replaces": "5500"
+    },
+    "kestrelHttpsPort": {
+      "type": "parameter",
+      "datatype": "integer",
+      "description": "Port number to use for the HTTPS endpoint in launchSettings.json."
+    },
+    "blazorKestrelHttpsPortGenerated": {
+      "type": "generated",
+      "generator": "port",
+      "parameters": {
+        "low": 7000,
+        "high": 7300
+      }
+    },
+    "blazorKestrelHttpsPortReplacer": {
+      "type": "generated",
+      "generator": "coalesce",
+      "parameters": {
+        "sourceVariableName": "kestrelHttpsPort",
+        "fallbackVariableName": "blazorKestrelHttpsPortGenerated"
+      },
+      "replaces": "5501"
+    },
+    "InteractivityPlatform": {
+      "type": "parameter",
+      "datatype": "choice",
+      "defaultValue": "Server",
+      "displayName": "_Interactivity mode",
+      "description": "Select the interactive render mode for the Blazor Toolkit components",
+      "choices": [
+        {
+          "choice": "None",
+          "displayName": "None",
+          "description": "No interactivity (static server rendering only)"
+        },
+        {
+          "choice": "Server",
+          "displayName": "Server",
+          "description": "Interactive rendering on the server"
+        },
+        {
+          "choice": "WebAssembly",
+          "displayName": "WebAssembly",
+          "description": "Interactive rendering in the browser using WebAssembly"
+        },
+        {
+          "choice": "Auto",
+          "displayName": "Auto (Server and WebAssembly)",
+          "description": "Uses Server while downloading WebAssembly assets, then uses WebAssembly"
+        }
+      ]
+    },
+    "InteractivityLocation": {
+      "type": "parameter",
+      "datatype": "choice",
+      "defaultValue": "InteractivePerPage",
+      "displayName": "_Interactivity location",
+      "description": "Chooses which components will have interactive rendering enabled",
+      "isEnabled": "(InteractivityPlatform != \"None\")",
+      "choices": [
+        {
+          "choice": "InteractivePerPage",
+          "displayName": "Per page/component",
+          "description": "Interactivity is applied on a per-page or per-component basis"
+        },
+        {
+          "choice": "InteractiveGlobal",
+          "displayName": "Global",
+          "description": "Interactivity is applied at the root level"
+        }
+      ]
+    },
+    "UseWebAssembly": {
+      "type": "computed",
+      "value": "(InteractivityPlatform == \"WebAssembly\" || InteractivityPlatform == \"Auto\")"
+    },
+    "UseServer": {
+      "type": "computed",
+      "value": "(InteractivityPlatform == \"Server\" || InteractivityPlatform == \"Auto\")"
+    },
+    "AllInteractive": {
+      "type": "parameter",
+      "datatype": "bool",
+      "isEnabled": "(InteractivityPlatform != \"None\")",
+      "defaultValue": "false",
+      "displayName": "_Global interactivity",
+      "description": "Enable interactive rendering globally (root-level) for all pages and components"
+    },
+    "InteractivityAtRoot": {
+      "type": "computed",
+      "value": "(InteractivityLocation == \"InteractiveGlobal\" || AllInteractive)"
+    },
+    "IncludeSampleContent": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "true",
+      "displayName": "_Include sample pages",
+      "description": "Include sample pages and styling to demonstrate Blazor Toolkit usage"
+    },
+    "Empty": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "false",
+      "displayName": "_Empty template",
+      "description": "Generate an empty template without sample pages and styling"
+    },
+    "SampleContent": {
+      "type": "computed",
+      "value": "(((IncludeSampleContent && (HostIdentifier != \"dotnetcli\" && HostIdentifier != \"dotnetcli-preview\"))) || ((!Empty && (HostIdentifier == \"dotnetcli\" || HostIdentifier == \"dotnetcli-preview\"))))"
+    },
+    "NoHttps": {
+      "type": "parameter",
+      "datatype": "bool",
+      "displayName": "_Disable HTTPS",
+      "defaultValue": "false",
+      "description": "Disable HTTPS for local development"
+    },
+    "HasHttpProfile": {
+      "type": "computed",
+      "value": "(!NoHttps)"
+    },
+    "HasHttpsProfile": {
+      "type": "computed",
+      "value": "(!NoHttps)"
+    },
+    "UseProgramMain": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "false",
+      "displayName": "Do not use _top-level statements",
+      "description": "Whether to generate an explicit Program class and Main method instead of top-level statements."
+    },
+    "LocalhostTld": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "false",
+      "displayName": "Use the .dev.localhost TLD in the application URL",
+      "description": "Whether to combine the project name with the .dev.localhost TLD in the application URL for local development."
+    },
+    "copyrightYear": {
+      "type": "generated",
+      "generator": "now",
+      "replaces": "copyrightYear",
+      "parameters": {
+        "format": "yyyy"
+      }
+    }
+  },
+  "forms": {
+    "lowerCaseInvariantWithHyphens": {
+      "identifier": "chain",
+      "steps": [
+        "lowerCaseInvariant",
+        "replaceDnsInvalidChars",
+        "replaceRepeatedHyphens",
+        "trimLeadingHyphens",
+        "trimTrailingHyphens"
+      ]
+    },
+    "replaceDnsInvalidChars": {
+      "identifier": "replace",
+      "pattern": "[^a-z0-9-]",
+      "replacement": "-"
+    },
+    "replaceRepeatedHyphens": {
+      "identifier": "replace",
+      "pattern": "-{2,}",
+      "replacement": "-"
+    },
+    "trimLeadingHyphens": {
+      "identifier": "replace",
+      "pattern": "^-+",
+      "replacement": ""
+    },
+    "trimTrailingHyphens": {
+      "identifier": "replace",
+      "pattern": "-+$",
+      "replacement": ""
+    }
+  },
+  "postActions": [
+    {
+      "id": "restore",
+      "condition": "(!skipRestore)",
+      "description": "Restore NuGet packages required by this project.",
+      "manualInstructions": [
+        {
+          "text": "Run 'dotnet restore' in the project directory"
+        }
+      ],
+      "actionId": "210D431B-A78B-4D2F-B762-4ED3E3EA9025",
+      "continueOnError": true
+    }
+  ]
+}

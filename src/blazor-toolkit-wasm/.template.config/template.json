@@ -1,0 +1,247 @@
+{
+  "$schema": "https://json.schemastore.org/template",
+  "author": "Syncfusion",
+  "classifications": [
+    "Web",
+    "Blazor",
+    "WebAssembly",
+    "Syncfusion",
+    "Toolkit",
+    "PWA"
+  ],
+  "name": "Syncfusion Blazor Toolkit WebAssembly App",
+  "defaultName": "SyncfusionToolkitWasm",
+  "description": "A project template for creating a Blazor WebAssembly app using the Syncfusion Blazor Toolkit components.",
+  "groupIdentity": "Syncfusion.Blazor.Toolkit.WebAssembly",
+  "identity": "Syncfusion.Blazor.Toolkit.WebAssembly.CSharp.10.0",
+  "thirdPartyNotices": "",
+  "precedence": "9850",
+  "guids": [
+    "1A7C8B2E-4F5D-41E6-9A7B-3C4D5E6F7A8B",
+    "2B8D9C3F-5A6E-52F7-0B1C-4D5E6F7A8B9C",
+    "3C9E0D4A-6B7F-63A8-1C2D-5E6F7A8B9C0D",
+    "4D0F1E5B-7C8A-74B9-2D3E-6F7A8B9C0D1E"
+  ],
+  "preferNameDirectory": true,
+  "primaryOutputs": [
+    {
+      "path": "BlazorWebAssembly-Template.csproj"
+    }
+  ],
+  "shortName": "sfblazorwasm",
+  "sourceName": "BlazorWebAssembly-Template",
+  "symbols": {
+    "Framework": {
+      "type": "parameter",
+      "description": "The target framework for the project.",
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "net10.0",
+          "description": "Target net10.0"
+        }
+      ],
+      "replaces": "net10.0",
+      "defaultValue": "net10.0"
+    },
+    "HostIdentifier": {
+      "type": "bind",
+      "binding": "HostIdentifier"
+    },
+    "skipRestore": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "false",
+      "description": "If specified, skips the automatic restore of the project on create."
+    },
+    "NoHttps": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "false",
+      "displayName": "_Disable HTTPS",
+      "description": "Whether to turn off HTTPS for local development"
+    },
+    "HasHttpProfile": {
+      "type": "computed",
+      "value": "(!NoHttps)"
+    },
+    "HasHttpsProfile": {
+      "type": "computed",
+      "value": "(!NoHttps)"
+    },
+    "LocalhostTld": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "false",
+      "displayName": "Use the .dev.localhost TLD in the application URL",
+      "description": "Whether to combine the project name with the .dev.localhost TLD in the application URL for local development."
+    },
+    "IncludeSampleContent": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "true",
+      "displayName": "_Include sample pages",
+      "description": "Configures whether to add sample pages and styling to demonstrate basic usage patterns."
+    },
+    "ExcludeLaunchSettings": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "false",
+      "displayName": "_Exclude launchSettings.json",
+      "description": "Whether to exclude launchSettings.json from the generated template."
+    },
+    "Empty": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "false",
+      "displayName": "_Empty template",
+      "description": "Configures whether to omit sample pages and styling that demonstrate basic usage patterns."
+    },
+    "SampleContent": {
+      "type": "computed",
+      "value": "(((IncludeSampleContent && (HostIdentifier != \"dotnetcli\" && HostIdentifier != \"dotnetcli-preview\"))) || ((!Empty && (HostIdentifier == \"dotnetcli\" || HostIdentifier == \"dotnetcli-preview\"))))"
+    },
+    "PWA": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "false",
+      "displayName": "_Progressive Web Application",
+      "description": "If specified, produces a Progressive Web Application (PWA) supporting installation and offline use."
+    },
+    "UseProgramMain": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "false",
+      "displayName": "Do not use _top-level statements",
+      "description": "Whether to generate an explicit Program class and Main method instead of top-level statements."
+    },
+    "kestrelHttpPort": {
+      "type": "parameter",
+      "datatype": "integer",
+      "description": "Port number to use for the HTTP endpoint in launchSettings.json."
+    },
+    "blazorKestrelHttpPortGenerated": {
+      "type": "generated",
+      "generator": "port",
+      "parameters": {
+        "low": 5000,
+        "high": 5300
+      }
+    },
+    "blazorKestrelHttpPortReplacer": {
+      "type": "generated",
+      "generator": "coalesce",
+      "parameters": {
+        "sourceVariableName": "kestrelHttpPort",
+        "fallbackVariableName": "blazorKestrelHttpPortGenerated"
+      },
+      "replaces": "5000"
+    },
+    "kestrelHttpsPort": {
+      "type": "parameter",
+      "datatype": "integer",
+      "description": "Port number to use for the HTTPS endpoint in launchSettings.json."
+    },
+    "blazorKestrelHttpsPortGenerated": {
+      "type": "generated",
+      "generator": "port",
+      "parameters": {
+        "low": 7000,
+        "high": 7300
+      }
+    },
+    "blazorKestrelHttpsPortReplacer": {
+      "type": "generated",
+      "generator": "coalesce",
+      "parameters": {
+        "sourceVariableName": "kestrelHttpsPort",
+        "fallbackVariableName": "blazorKestrelHttpsPortGenerated"
+      },
+      "replaces": "5001"
+    },
+    "copyrightYear": {
+      "type": "generated",
+      "generator": "now",
+      "replaces": "copyrightYear",
+      "parameters": {
+        "format": "yyyy"
+      }
+    }
+  },
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sources": [
+    {
+      "source": "./",
+      "target": "./",
+      "exclude": [
+        ".template.config/**",
+        "**/[Bb]in/**",
+        "**/[Oo]bj/**",
+        "**/.vs/**",
+        "**/*.user"
+      ],
+      "modifiers": [
+        {
+          "condition": "(ExcludeLaunchSettings)",
+          "exclude": [
+            "Properties/launchSettings.json"
+          ]
+        },
+        {
+          "condition": "(!SampleContent)",
+          "exclude": [
+            "Pages/Counter.*",
+            "Pages/Weather.*",
+            "Layout/MainLayout.razor.css",
+            "Layout/NavMenu.*",
+            "wwwroot/lib/**",
+            "wwwroot/favicon.png",
+            "wwwroot/sample-data/weather.json"
+          ]
+        },
+        {
+          "condition": "(!PWA)",
+          "exclude": [
+            "wwwroot/manifest.webmanifest",
+            "wwwroot/icon-192.png",
+            "wwwroot/icon-512.png",
+            "wwwroot/service-worker.js",
+            "wwwroot/service-worker.published.js"
+          ]
+        },
+        {
+          "condition": "(!UseProgramMain)",
+          "exclude": [
+            "Program.Main.cs"
+          ]
+        },
+        {
+          "condition": "(UseProgramMain)",
+          "exclude": [
+            "Program.cs"
+          ],
+          "rename": {
+            "Program.Main.cs": "Program.cs"
+          }
+        }
+      ]
+    }
+  ],
+  "postActions": [
+    {
+      "id": "restore",
+      "condition": "(!skipRestore)",
+      "description": "Restore NuGet packages required by this project.",
+      "manualInstructions": [
+        {
+          "text": "Run 'dotnet restore' in the project directory"
+        }
+      ],
+      "actionId": "210D431B-A78B-4D2F-B762-4ED3E3EA9025",
+      "continueOnError": true
+    }
+  ]
+}

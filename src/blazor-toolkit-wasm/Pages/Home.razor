@@ -1,0 +1,113 @@
+﻿@page "/"
+@using Syncfusion.Blazor.Toolkit
+@using Microsoft.AspNetCore.Components.Web
+
+<PageTitle>Home</PageTitle>
+
+<div class="py-5 bg-light rounded-3 mb-4">
+	<div class="container">
+		<h1 class="display-5 fw-bold">Blazor Toolkit WebAssembly</h1>
+		<p class="col-md-8 fs-5">Simple starter template with Syncfusion Blazor Toolkit controls.</p>
+		<div class="mt-3">
+			<SfButton CssClass="e-primary me-2" OnClick=@(() => Message = "Welcome!")>Get started</SfButton>
+			<SfButton CssClass="e-outline">Documentation</SfButton>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+	@if (!string.IsNullOrEmpty(Message))
+	{
+		<div class="alert alert-info mb-4">@Message</div>
+	}
+
+	<div class="row mb-5">
+		<!-- TextBox Sample -->
+		<div class="col-md-6 mb-4">
+			<SfCard>
+				<CardContent>
+					<h5>TextBox Sample</h5>
+					<label class="form-label">Name</label>
+					<SfTextBox Placeholder="Enter your name" @bind-Value="Name"></SfTextBox>
+					@if (!string.IsNullOrEmpty(Name))
+					{
+						<p class="mt-2">Hello, <strong>@Name</strong>!</p>
+					}
+				</CardContent>
+			</SfCard>
+		</div>
+
+		<!-- CheckBox Sample -->
+		<div class="col-md-6 mb-4">
+			<SfCard>
+				<CardContent>
+					<h5>CheckBox Sample</h5>
+					<SfCheckBox @bind-Checked="IsAgree" Label="I agree to the terms"></SfCheckBox>
+					<p class="mt-2">Status: <strong>@(IsAgree ? "Agreed" : "Not agreed")</strong></p>
+				</CardContent>
+			</SfCard>
+		</div>
+
+		<!-- RadioButton Sample -->
+		<div class="col-md-6 mb-4">
+			<SfCard>
+				<CardContent>
+					<h5>RadioButton Sample</h5>
+					<SfRadioButton Name="color" Value="red" @bind-Checked="SelectedColor" Label="Red"></SfRadioButton>
+					<SfRadioButton Name="color" Value="blue" @bind-Checked="SelectedColor" Label="Blue"></SfRadioButton>
+					<p class="mt-2">Selected: <strong>@SelectedColor</strong></p>
+				</CardContent>
+			</SfCard>
+		</div>
+
+		<!-- Switch Sample -->
+		<div class="col-md-6 mb-4">
+			<SfCard>
+				<CardContent>
+					<h5>Switch Sample</h5>
+					<SfSwitch @bind-Checked="IsEnabled"></SfSwitch>
+					<p class="mt-2">Enabled: <strong>@(IsEnabled ? "Yes" : "No")</strong></p>
+				</CardContent>
+			</SfCard>
+		</div>
+
+		<!-- NumericTextBox Sample -->
+		<div class="col-md-6 mb-4">
+			<SfCard>
+				<CardContent>
+					<h5>NumericTextBox Sample</h5>
+					<label class="form-label">Amount</label>
+					<SfNumericTextBox TValue="double?" Placeholder="Enter amount" @bind-Value="Amount" Decimals="2"></SfNumericTextBox>
+					@if (Amount.HasValue)
+					{
+						<p class="mt-2">Amount: <strong>$@Amount.Value.ToString("F2")</strong></p>
+					}
+				</CardContent>
+			</SfCard>
+		</div>
+
+		<!-- Button Variants Sample -->
+		<div class="col-md-6 mb-4">
+			<SfCard>
+				<CardContent>
+					<h5>Button Variants</h5>
+					<div class="d-grid gap-2">
+						<SfButton CssClass="e-primary" OnClick=@(() => Message = "Primary clicked")>Primary</SfButton>
+						<SfButton CssClass="e-success" OnClick=@(() => Message = "Success clicked")>Success</SfButton>
+						<SfButton CssClass="e-danger" OnClick=@(() => Message = "Danger clicked")>Danger</SfButton>
+					</div>
+				</CardContent>
+			</SfCard>
+		</div>
+	</div>
+</div>
+
+@code {
+	private string Message { get; set; } = string.Empty;
+	private string Name { get; set; } = string.Empty;
+	private bool IsAgree { get; set; }
+	private string SelectedColor { get; set; } = "red";
+	private bool IsEnabled { get; set; }
+	private double? Amount { get; set; }
+	private int? SliderValue { get; set; } = 50;
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json.schemastore.org/dotnetcli.host",
+  "symbolInfo": {
+    "skipRestore": {
+      "longName": "no-restore",
+      "shortName": ""
+    },
+    "Framework": {
+      "longName": "framework"
+    },
+    "NoHttps": {
+      "longName": "no-https",
+      "shortName": ""
+    },
+    "PWA": {
+      "longName": "pwa"
+    },
+    "IncludeSampleContent": {
+      "isHidden": true
+    },
+    "Empty": {
+      "isHidden": true
+    },
+    "ExcludeLaunchSettings": {
+      "isHidden": true
+    },
+    "UseProgramMain": {
+      "longName": "use-program-main",
+      "shortName": ""
+    },
+    "LocalhostTld": {
+      "isHidden": true
+    }
+  },
+  "usageExamples": [
+    "sfblazorwasm",
+    "sfblazorwasm --empty"
+  ]
+}
