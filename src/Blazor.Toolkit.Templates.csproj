@@ -30,22 +30,20 @@
 
 	<ItemGroup>
 		<!-- Pack template files ONLY (not projects) -->
-		<Content Include="**/*"
-					 Exclude="**/bin/**;**/obj/**;**/.vs/**;**/LICENSE;**/LICENSE.txt;syncfusion_logo.png"
-					 Pack="true"
-					 PackagePath="/" />
-		<Content Include="blazor-toolkit-web/**"
-				 Exclude="**/bin/**;**/obj/**;**/.vs/**;**/*.user"
-				 Pack="true"
-				 PackagePath="/" />
-		<Content Include="blazor-toolkit-wasm/**"
-				 Exclude="**/bin/**;**/obj/**;**/.vs/**;**/*.user"
-				 Pack="true"
-				 PackagePath="/" />
+		<Content Include="blazor-toolkit-web/**/*"
+				Exclude="**/bin/**;**/obj/**;**/.vs/**;**/*.user;**/*.csproj.user"
+				Pack="true" />
+
+		<Content Include="blazor-toolkit-wasm/**/*"
+				Exclude="**/bin/**;**/obj/**;**/.vs/**;**/*.user;**/*.csproj.user"
+				Pack="true" />
+
 		<Compile Remove="**\*" />
+		<EmbeddedResource Remove="**\*" />
+		<None Remove="**\*" />
 
 		<None Include="..\LICENSE.txt" Pack="true" PackagePath="LICENSE.txt" />
-		<None Include="syncfusion_logo.png" Pack="true" PackagePath="" />
-		<None Include="..\README.md" Pack="true" PackagePath="README.md" />
+    	<None Include="syncfusion_logo.png" Pack="true" PackagePath="syncfusion_logo.png" />
+    	<None Include="..\README.md" Pack="true" PackagePath="README.md" />
 	</ItemGroup>
 </Project>

@@ -1,117 +1,494 @@
-﻿@page "/"
+﻿@*
+    Home.razor
+    ---------------------------------------------------------------------------------
+    Landing page for the Blazor Toolkit component demos.
+
+    Design language: Microsoft Fluent 2
+    - Azure Portal / Microsoft Learn / Power Platform feel
+    - Compact hero (~35% smaller than the previous design)
+    - Sticky search with clear button
+    - 4/2/1-column responsive category grid
+    - Subtle accent top-borders per category (not full card backgrounds)
+    - WCAG AA: keyboard navigable, visible focus, 44px touch targets
+*@
+@page "/"
 
 <PageTitle>Home</PageTitle>
 
 @*#if (SampleContent)
 @using Syncfusion.Blazor.Toolkit
-@using Microsoft.AspNetCore.Components.Web
+<PageTitle>Blazor Toolkit · Fluent 2 Component Library</PageTitle>
 
-<div class="py-5 bg-light rounded-3 mb-4">
-	<div class="container">
-		<h1 class="display-5 fw-bold">Blazor Toolkit WebAssembly</h1>
-		<p class="col-md-8 fs-5">Simple starter template with Syncfusion Blazor Toolkit controls.</p>
-		<div class="mt-3">
-			<SfButton CssClass="e-primary me-2" OnClick=@(() => Message = "Welcome!")>Get started</SfButton>
-			<SfButton CssClass="e-outline">Documentation</SfButton>
-		</div>
-	</div>
-</div>
+<div class="demo-page demo-stack">
 
-<div class="container">
-	@if (!string.IsNullOrEmpty(Message))
-	{
-		<div class="alert alert-info mb-4">@Message</div>
-	}
+    <!-- Hero — Microsoft Learn style, compact -->
+    <section class="fx-hero" aria-labelledby="fx-hero-title">
+        <div class="fx-hero-content">
+            <h1 id="fx-hero-title" class="fx-hero-title">Blazor Toolkit Components</h1>
+            <p class="fx-hero-subtitle">
+                A production-grade Blazor Toolkit component library built on 
+				Fluent 2 design system. Accessible, theme-aware, and ready for
+                enterprise applications.
+            </p>
+            <div class="fx-hero-actions">
+                <a href="https://blazor.syncfusion.com/demos/toolkit/" target="_blank" class="fx-btn fx-btn-primary">
+                    Browse components
+                    <span class="fx-btn-icon" aria-hidden="true">→</span>
+                </a>
+                <a href="https://github.com/syncfusion/blazor-toolkit/tree/main" target="_blank" rel="noopener"
+                   class="fx-btn fx-btn-secondary">
+                    GitHub
+                </a>
+            </div>
+        </div>
 
-	<div class="row mb-5">
-		<!-- TextBox Sample -->
-		<div class="col-md-6 mb-4">
-			<SfCard>
-				<CardContent>
-					<h5>TextBox Sample</h5>
-					<label class="form-label">Name</label>
-					<SfTextBox Placeholder="Enter your name" @bind-Value="Name"></SfTextBox>
-					@if (!string.IsNullOrEmpty(Name))
-					{
-						<p class="mt-2">Hello, <strong>@Name</strong>!</p>
-					}
-				</CardContent>
-			</SfCard>
-		</div>
+        <!-- Statistics row -->
+        <ul class="fx-stats" aria-label="Library statistics">
+            <li class="fx-stat">
+                <span class="fx-stat-value">@_totalComponents</span>
+                <span class="fx-stat-label">Total components</span>
+            </li>
+            <li class="fx-stat">
+                <span class="fx-stat-value">@_groups.Count</span>
+                <span class="fx-stat-label">Categories</span>
+            </li>
+            <li class="fx-stat">
+                <span class="fx-stat-value fx-stat-success">AA</span>
+                <span class="fx-stat-label">Accessibility</span>
+            </li>
+            <li class="fx-stat">
+                <span class="fx-stat-value">2.0</span>
+                <span class="fx-stat-label">Fluent version</span>
+            </li>
+        </ul>
+    </section>
 
-		<!-- CheckBox Sample -->
-		<div class="col-md-6 mb-4">
-			<SfCard>
-				<CardContent>
-					<h5>CheckBox Sample</h5>
-					<SfCheckBox @bind-Checked="IsAgree" Label="I agree to the terms"></SfCheckBox>
-					<p class="mt-2">Status: <strong>@(IsAgree ? "Agreed" : "Not agreed")</strong></p>
-				</CardContent>
-			</SfCard>
-		</div>
+    <!-- Category grid -->
+    <section id="fx-categories" aria-labelledby="fx-categories-title">
 
-		<!-- RadioButton Sample -->
-		<div class="col-md-6 mb-4">
-			<SfCard>
-				<CardContent>
-					<h5>RadioButton Sample</h5>
-					<SfRadioButton Name="color" Value="red" @bind-Checked="SelectedColor" Label="Red"></SfRadioButton>
-					<SfRadioButton Name="color" Value="blue" @bind-Checked="SelectedColor" Label="Blue"></SfRadioButton>
-					<p class="mt-2">Selected: <strong>@SelectedColor</strong></p>
-				</CardContent>
-			</SfCard>
-		</div>
+        <div class="fx-grid" role="list" aria-label="Component group demos">
+            @foreach (var group in _groups.OrderBy(g => g.Order))
+            {
+                <article class="fx-card fx-card-@group.AccentKey"
+                            role="listitem"
+                            aria-label="@($"{group.Title} component category with {group.Components.Count} controls")">
+                    <span class="fx-card-accent" aria-hidden="true"></span>
 
-		<!-- Switch Sample -->
-		<div class="col-md-6 mb-4">
-			<SfCard>
-				<CardContent>
-					<h5>Switch Sample</h5>
-					<SfSwitch @bind-Checked="IsEnabled"></SfSwitch>
-					<p class="mt-2">Enabled: <strong>@(IsEnabled ? "Yes" : "No")</strong></p>
-				</CardContent>
-			</SfCard>
-		</div>
+                    <div class="fx-card-header"
+                        aria-label="@($"Open {group.Title} overview")">
+                        <div class="fx-card-icon" aria-hidden="true">@group.Icon</div>
+                        <div class="fx-card-titleline">
+                            <h3 class="fx-card-title">@group.Title</h3>
+                            <p class="fx-card-description">@group.Description</p>
+                        </div>
+                    </div>
 
-		<!-- NumericTextBox Sample -->
-		<div class="col-md-6 mb-4">
-			<SfCard>
-				<CardContent>
-					<h5>NumericTextBox Sample</h5>
-					<label class="form-label">Amount</label>
-					<SfNumericTextBox TValue="double?" Placeholder="Enter amount" @bind-Value="Amount" Decimals="2"></SfNumericTextBox>
-					@if (Amount.HasValue)
-					{
-						<p class="mt-2">Amount: <strong>$@Amount.Value.ToString("F2")</strong></p>
-					}
-				</CardContent>
-			</SfCard>
-		</div>
+                    <div class="fx-card-preview">
 
-		<!-- Button Variants Sample -->
-		<div class="col-md-6 mb-4">
-			<SfCard>
-				<CardContent>
-					<h5>Button Variants</h5>
-					<div class="d-grid gap-2">
-						<SfButton CssClass="e-primary" OnClick=@(() => Message = "Primary clicked")>Primary</SfButton>
-						<SfButton CssClass="e-success" OnClick=@(() => Message = "Success clicked")>Success</SfButton>
-						<SfButton CssClass="e-danger" OnClick=@(() => Message = "Danger clicked")>Danger</SfButton>
-					</div>
-				</CardContent>
-			</SfCard>
-		</div>
-	</div>
+                        @if (group.Title == "Buttons")
+                        {
+                            <div class="fx-preview-buttons">
+                                <div class="button-items">
+                                    <SfButton CssClass="e-primary">Primary</SfButton>
+                                    <SfButton>Default</SfButton>
+                                    <SfButton CssClass="e-success">Success</SfButton>
+                                    <SfButton CssClass="e-danger">Delete</SfButton>
+                                </div>
+                                <div class="buttongroup-items">
+                                    <SfButtonGroup Mode="SelectionMode.Single">
+                                        <Button Selected="@(_selectedAlignment == "Left")"
+                                                SelectedChanged='@((bool selected) => OnAlignmentChanged("Left", selected))'>
+                                            Left
+                                        </Button>
+                                        <Button Selected="@(_selectedAlignment == "Center")"
+                                                SelectedChanged='@((bool selected) => OnAlignmentChanged("Center", selected))'>
+                                            Center
+                                        </Button>
+                                        <Button Selected="@(_selectedAlignment == "Right")"
+                                                SelectedChanged='@((bool selected) => OnAlignmentChanged("Right", selected))'>
+                                            Right
+                                        </Button>
+                                    </SfButtonGroup>
+                                </div>
+                                <div class="demo-output" aria-live="polite">
+                                    <span class="demo-output-label">Selected:</span>
+                                    <span class="demo-output-value">@_selectedAlignment</span>
+                                </div>
+                            </div>
+                        }
+                        else if (group.Title == "Inputs")
+                        {
+                            <div class="fx-preview-form">
+
+                                <SfTextArea Width="100%" Placeholder="Tell us a little about yourself…" RowCount="4" ResizeMode="Resize.None"/>
+
+                                <div class="fx-preview-switch">
+                                    <span>Enable notifications</span>
+                                    <SfSwitch @bind-Checked="_notification" OnLabel="On" OffLabel="Off" />                 
+                                </div>
+
+                                <SfUploader AutoUpload="false">
+                                </SfUploader>
+
+                            </div>
+                        }
+                        else if (group.Title == "Calendars")
+                        {
+                            <div class="fx-preview-calendar">
+                                <SfDatePicker TValue="DateTime?"
+                                            @bind-Value="_dateValue"
+                                            Placeholder="Select date" />
+
+                                <SfTimePicker TValue="DateTime?"
+                                            @bind-Value="_timeValue"
+                                            Placeholder="Select time" />
+
+                                <SfDateTimePicker TValue="DateTime?"
+                                                @bind-Value="_dateTime"
+                                                Placeholder="Select date and time"
+                                                Min="@DateTime.Today" />
+                            </div>
+                        }
+                        else if (group.Title == "Popups")
+                        {
+                            <div class="fx-preview-popups">
+
+                                <SfTooltip Content="Example tooltip">
+                                    <SfButton CssClass="e-outline"
+                                        OnClick="@(() => _infoVisible = true)">
+                                    Hover for Tooltip/Click for Dialog
+                                </SfButton>
+                                </SfTooltip>
+                                
+                            </div>
+                            <SfDialog @bind-Visible="_infoVisible"
+                                    IsModal="true"
+                                    ShowCloseIcon="true"
+                                    Width="480px">
+                                <DialogTemplates>
+                                    <Header>About this demo</Header>
+                                    <Content>
+                                        <p style="margin: 0 0 0.5rem 0;">
+                                            This page demonstrates only the popups group:
+                                            <code>SfDialog</code> and <code>SfTooltip</code>.
+                                        </p>
+                                        <p style="margin: 0; color: var(--dt-neutral-60); font-size: 0.8125rem;">
+                                            The dialog above uses the modal pattern with a custom
+                                            header, body, and footer. The buttons on this page are
+                                            wrapped in tooltips to provide inline help without
+                                            cluttering the UI.
+                                        </p>
+                                    </Content>
+                                    <FooterTemplate>
+                                        <SfButton CssClass="e-primary" OnClick="@(() => _infoVisible = false)">Got it</SfButton>
+                                    </FooterTemplate>
+                                </DialogTemplates>
+                            </SfDialog>
+                        }
+                        else if (group.Title == "Spinner")
+                        {
+                            <div class="fx-preview-spinner">
+                                <div class="spinner-item">
+                                    <SfSpinner Visible="true">
+                                        <SpinnerTemplates>
+                                            <Template>
+                                                <div class="sf-spin-bars">
+                                                    <span></span><span></span><span></span><span></span><span></span>
+                                                </div>
+                                            </Template>
+                                        </SpinnerTemplates>
+                                    </SfSpinner>
+                                </div>
+                                <div class="spinner-item">
+                                    <SfSpinner Visible="true">
+                                        <SpinnerTemplates>
+                                            <Template>
+                                                <div class="sf-spin-dots">
+                                                    <span></span><span></span><span></span>
+                                                </div>
+                                            </Template>
+                                        </SpinnerTemplates>
+                                    </SfSpinner>
+                                </div>
+                            </div>
+                            <style>
+                                .sf-spin-bars {
+                                    display: flex;
+                                    gap: 4px;
+                                    height: 26px;
+                                    align-items: flex-end;
+                                }
+                                .sf-spin-bars span {
+                                    width: 4px;
+                                    background: var(--dt-accent-60);
+                                    border-radius: 2px;
+                                    height: 8px;
+                                    animation: spin-bar-pulse 1s infinite ease-in-out;
+                                }
+                                .sf-spin-bars span:nth-child(1) { animation-delay: 0.00s; }
+                                .sf-spin-bars span:nth-child(2) { animation-delay: 0.10s; }
+                                .sf-spin-bars span:nth-child(3) { animation-delay: 0.20s; }
+                                .sf-spin-bars span:nth-child(4) { animation-delay: 0.30s; }
+                                .sf-spin-bars span:nth-child(5) { animation-delay: 0.40s; }
+                                @@keyframes spin-bar-pulse {
+                                    0%, 100% { height: 8px;  opacity: 0.6; }
+                                    50%      { height: 26px; opacity: 1; }
+                                }
+
+                                .sf-spin-dots {
+                                    display: flex;
+                                    gap: 8px;
+                                    align-items: center;
+                                }
+                                .sf-spin-dots span {
+                                    width: 10px;
+                                    height: 10px;
+                                    border-radius: 50%;
+                                    background: var(--dt-accent-60);
+                                    opacity: 0.35;
+                                    animation: spin-dot-pulse 1.2s infinite ease-in-out;
+                                }
+                                .sf-spin-dots span:nth-child(2) { animation-delay: 0.15s; }
+                                .sf-spin-dots span:nth-child(3) { animation-delay: 0.30s; }
+                                @@keyframes spin-dot-pulse {
+                                    0%, 80%, 100% { transform: scale(0.75); opacity: 0.35; }
+                                    40%           { transform: scale(1.15); opacity: 1; }
+                                }
+                            </style>
+                        }
+                        else if (group.Title == "Charts")
+                        {
+                            <SfChart Title="Renewable Energy Generation in India (2015-2025)" SubTitle="Source: Wikipedia - Renewable Energy Statistics (India)">
+
+                                <ChartArea>
+                                    <ChartAreaBorder Width="0" />
+                                </ChartArea>
+
+                                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+                                    <ChartAxisMajorGridLines Width="0" />
+                                    <ChartAxisMajorTickLines Width="0" />
+                                    <ChartAxisMinorTickLines Width="0" />
+                                </ChartPrimaryXAxis>
+
+                                <ChartPrimaryYAxis Minimum="0"
+                                                Maximum="300"
+                                                Interval="50"
+                                                Title="Energy Generation (TWh)"> 
+                                    <ChartAxisLineStyle Width="0" />
+                                </ChartPrimaryYAxis>
+
+                                <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical" HighlightCategory="true">
+                                </ChartCrosshairSettings>
+
+
+                                <ChartSeries DataSource="@RenewableEnergyDataSource"
+                                                XName="X"
+                                                YName="Wind"
+                                                Name="Wind"
+                                                Type="ChartSeriesType.StackingLine"
+                                                Width="2.5">
+                                    <ChartMarker Visible="true" />
+                                </ChartSeries>
+
+                                <ChartSeries DataSource="@RenewableEnergyDataSource"
+                                                XName="X"
+                                                YName="Biomass"
+                                                Name="Biomass"
+                                                Type="ChartSeriesType.StackingLine"
+                                                Width="2.5">
+                                    <ChartMarker Visible="true" />
+                                </ChartSeries>
+
+                                <ChartSeries DataSource="@RenewableEnergyDataSource"
+                                                XName="X"
+                                                YName="SmallHydro"
+                                                Name="Small Hydro"
+                                                Type="ChartSeriesType.StackingLine"
+                                                Width="2.5">
+                                    <ChartMarker Visible="true" />
+                                </ChartSeries>
+
+                                <ChartSeries DataSource="@RenewableEnergyDataSource"
+                                                XName="X"
+                                                YName="Solar"
+                                                Name="Solar"
+                                                Type="ChartSeriesType.StackingLine"
+                                                Width="2.5">
+                                    <ChartMarker Visible="true" />
+                                </ChartSeries>
+
+
+                                <ChartTooltipSettings Enable="true" Shared="true"
+                                                    EnableHighlight="true"
+                                                    Format="${series.name}: <b>${point.y} TWh</b>" />
+
+                                <ChartLegendSettings EnableHighlight="true" />
+
+                            </SfChart>
+                        }
+
+                    </div>
+
+                    <div class="fx-card-components">
+                        <strong>Components: </strong>@string.Join(", ", group.Components)
+                    </div>
+                </article>
+            }
+        </div>
+    </section>
 </div>
 
 @code {
-	private string Message { get; set; } = string.Empty;
-	private string Name { get; set; } = string.Empty;
-	private bool IsAgree { get; set; }
-	private string SelectedColor { get; set; } = "red";
-	private bool IsEnabled { get; set; }
-	private double? Amount { get; set; }
-	private int? SliderValue { get; set; } = 50;
+    /// <summary>
+    /// Represents a component group shown as a card on the landing page.
+    /// </summary>
+    /// <param name="Title">Display title.</param>
+    /// <param name="Description">Short description of the group's purpose.</param>
+    /// <param name="Icon">Emoji or symbol used in the card icon tile.</param>
+    /// <param name="AccentKey">CSS modifier key for the accent top-border colour.</param>
+    /// <param name="Order">Display order on the landing page. Lower values appear first.</param>
+    /// <param name="Components">Component names in the group.</param>
+    /// <param name="Keywords">Additional search keywords.</param>
+    private sealed record Group(
+        string Title,
+        string Description,
+        string Icon,
+        string AccentKey,
+        int Order,
+        IReadOnlyList<string> Components,
+        IReadOnlyList<string> Keywords)
+        {}
+
+    /// <summary>
+    /// All component groups rendered on the landing page.
+    /// Accent keys map to subtle top-border colours defined in demo.css.
+    /// The <c>Order</c> field controls the visual layout on a 3-column grid:
+    ///   Row 0 — Charts (1), Calendars (2), Popups (3)
+    ///   Row 1 — Inputs (4), Buttons (5), Spinner (6)
+    /// </summary>
+    private readonly IReadOnlyList<Group> _groups = new[]
+    {
+        new Group(
+            "Charts",
+            "SVG-rendered, theme-aware data visualization with tooltips and legends.",
+            "📈",
+            "purple",
+            1,
+            new[] { "Charts" },
+            new[] { "graph", "data", "visualization" }),
+
+        new Group(
+            "Calendars",
+            "Date and time pickers plus the inline calendar surface.",
+            "📅",
+            "purple",
+            2,
+            new[] { "Calendar", "DatePicker", "DateTime Picker", "TimePicker" },
+            new[] { "date", "time", "schedule" }),
+
+        new Group(
+            "Popups",
+            "Modal dialogs and inline contextual help for any focusable element.",
+            "◰",
+            "purple",
+            3,
+            new[] { "Dialog", "Tooltip" },
+            new[] { "modal", "dialog", "overlay" }),
+
+        new Group(
+            "Inputs",
+            "Forms, selections, and file upload controls.",
+            "Aa",
+            "purple",
+            4,
+            new[]
+            {
+                "TextBox",
+                "Numeric Textbox",
+                "TextArea",
+                "Checkbox",
+                "Radio Button",
+                "Switch",
+                "File Upload"
+            },
+            new[] { "form", "field", "text", "selection", "check", "radio", "switch", "upload", "file" }),
+        new Group(
+            "Buttons",
+            "Action buttons, semantic variants, and segmented button groups.",
+            "▤",
+            "purple",
+            5,
+            new[] { "Button", "Button Group" },
+            new[] { "action", "toggle", "cta" }),
+
+        new Group(
+            "Spinner",
+            "Busy indicators for asynchronous operations and loading states.",
+            "◌",
+            "purple",
+            6,
+            new[] { "Spinner" },
+            new[] { "loading", "busy", "progress" })
+    };
+
+    private string _selectedAlignment = "Left";
+
+    private void OnAlignmentChanged(string alignment, bool selected)
+    {
+        if (selected)
+            _selectedAlignment = alignment;
+    }
+
+    /// <summary>Total number of components across every group (including sub-groups).</summary>
+    private int _totalComponents => _groups.Sum(g => g.Components.Count);
+
+    /// <summary>
+    /// Date and time value bound to the <see cref="SfDateTimePicker"/>.
+    /// Pre-populated with <see cref="DateTime.Today"/> + 1 day at
+    /// 14:00 to illustrate afternoon scheduling.
+    /// </summary>
+    private DateTime? _dateTime = DateTime.Today.AddDays(1).AddHours(14);
+
+    private DateTime? _dateValue = DateTime.Today;
+
+    private DateTime? _timeValue =
+        DateTime.Today.AddHours(14);
+
+    /// <summary>
+    /// Whether the user has enabled dark mode. Defaults to
+    /// <see langword="false"/>.
+    /// </summary>
+    private bool _notification;
+
+    /// <summary>
+    /// Controls the visibility of the informational
+    /// <see cref="SfDialog"/>.
+    /// </summary>
+    private bool _infoVisible;
+
+    public class RenewableEnergyData
+    {
+        public int X { get; set; }
+        public double Wind { get; set; }
+        public double Biomass { get; set; }
+        public double SmallHydro { get; set; }
+        public double Solar { get; set; }
+    }
+
+    private List<RenewableEnergyData> RenewableEnergyDataSource = new()
+    {
+        new() { X = 2015, Wind = 28.2,  Biomass = 15.0,  SmallHydro = 8.1,  Solar = 4.6 },
+        new() { X = 2016, Wind = 28.6,  Biomass = 16.7,  SmallHydro = 8.4,  Solar = 7.5 },
+        new() { X = 2017, Wind = 46.0,  Biomass = 14.2,  SmallHydro = 7.73, Solar = 12.1 },
+        new() { X = 2018, Wind = 52.7,  Biomass = 15.3,  SmallHydro = 5.1,  Solar = 25.9 },
+        new() { X = 2019, Wind = 62.0,  Biomass = 16.4,  SmallHydro = 8.7,  Solar = 39.3 },
+        new() { X = 2020, Wind = 64.6,  Biomass = 13.9,  SmallHydro = 9.4,  Solar = 50.1 },
+        new() { X = 2021, Wind = 60.1,  Biomass = 14.8,  SmallHydro = 10.3, Solar = 60.4 },
+        new() { X = 2022, Wind = 68.6,  Biomass = 16.1,  SmallHydro = 10.4, Solar = 73.5 },
+        new() { X = 2023, Wind = 71.81, Biomass = 16.02, SmallHydro = 11.17, Solar = 102.01 },
+        new() { X = 2024, Wind = 83.39, Biomass = 14.24, SmallHydro = 9.49, Solar = 115.98 },
+        new() { X = 2025, Wind = 73.62, Biomass = 9.85,  SmallHydro = 10.39, Solar = 114.43 }
+    };
 }
 
 ##else
